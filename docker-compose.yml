@@ -1,0 +1,44 @@
+version: '3.7'
+
+services:
+  postgres:
+    image: postgres:15.1
+    depends_on: [ ]
+    environment:
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    ports:
+      - "5432:5432"
+  backend:
+    build:
+      context: ./backend
+    restart: unless-stopped
+    depends_on:
+      - postgres
+    volumes:
+      - ./backend:/app
+    environment:
+      APP_DEBUG: ${APP_DEBUG}
+      APP_NAME: ${PROJECT_NAME}
+      DB_HOST: postgres
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+      WAIT_HOSTS: postgres:5432
+    ports:
+      - "80:8000"
+  frontend:
+      build:
+        context: ./frontend
+      restart: unless-stopped
+      depends_on:
+        - postgres
+        - backend
+      volumes:
+        - ./frontend:/app
+      ports:
+        - "3000:3000"
