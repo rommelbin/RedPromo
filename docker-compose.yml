@@ -17,6 +17,7 @@ services:
   backend:
     build:
       context: ./backend
+    user: "${UID}:${GID}"
     restart: unless-stopped
     depends_on:
       - postgres
