@@ -20,10 +20,11 @@ class PreregisteredUserSeeder extends Seeder
 
         $user = new User([
             'name' => 'admin',
-            'password' => 'adminPass',
+            'password' => password_hash('adminPass', PASSWORD_DEFAULT),
             'email' => 'admin@email.com'
         ]);
         $user->save();
+        $user->createToken('access_token');
 
     }
 }

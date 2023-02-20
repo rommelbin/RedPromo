@@ -16,6 +16,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return 'Laravel version - ' . app()->version();
 });
+Route::get('/notlogged', function () {
+    return 'You are not logged';
+});
 
 Route::post('/login', [MainController::class, 'login']);
 Route::post('/register', [MainController::class, 'register']);

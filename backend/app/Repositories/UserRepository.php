@@ -21,7 +21,6 @@ class UserRepository
          * @var User $user
          */
         $user = static::findBy('email', $attributes['email']);
-
         if (password_verify($attributes['password'], $user->getAttribute('password'))) {
             $user->tokens()->delete();
             $token = $user->createToken('access_token')->plainTextToken;

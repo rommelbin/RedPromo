@@ -15,14 +15,11 @@ composer-install/backend:
 composer-update/backend:
 	${DOCKER_COMPOSER} --volume ${shell pwd}/backend:/app ${COMPOSER_COMMAND} update
 
-#npm-install/frontend:
-#	docker-compose run --rm frontend sh -c "npm install"
-
 up/migrate:
-	cd backend && docker-compose run --rm backend sh -c "/wait && php artisan migrate  --seed"
+	cd backend && docker-compose run --rm backend sh -c "/wait && php artisan migrate  --seed" && docker-compose up
 
 up/migrate/refresh:
-	cd backend && docker-compose run --rm backend sh -c "/wait && php artisan migrate:refresh  --seed"
+	cd backend && docker-compose run --rm backend sh -c "/wait && php artisan migrate:refresh  --seed" && docker-compose up
 
 #up/migrate:
 #	docker-compose run --rm backend sh -c "/wait && php artisan migrate --force --seed"

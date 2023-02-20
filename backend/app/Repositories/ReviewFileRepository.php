@@ -24,7 +24,13 @@ class ReviewFileRepository extends BaseRepository
         $image = $attributes['image'];
         unset($attributes['image']);
 
-        $review = Review::query()->find($attributes['review_id'])->first();
+        $review = Review::query()->find($attributes['review_id']);
+        if (!$review) {
+            $validationError = new ValidationException();
+            $validationError->setValidationError(['path' => 'Произошла ошибка при сохранении']);
+            throw $validationError;
+        }
+
         $userKey =  $review->user()->first()->getKey();
         $path = $userKey . '/ReviewFiles';
 
@@ -34,6 +40,7 @@ class ReviewFileRepository extends BaseRepository
         if (!$serverImagePath) {
             $validationError = new ValidationException();
             $validationError->setValidationError(['path' => 'Произошла ошибка при сохранении']);
+            throw $validationError;
         }
 
         $attributes['path'] = $image->hashName($path);
