@@ -13,13 +13,16 @@ COMPOSER_COMMAND := composer --ignore-platform-reqs
 composer-install/backend:
 	${DOCKER_COMPOSER} --volume $(shell pwd)/backend:/app ${COMPOSER_COMMAND} install
 composer-update/backend:
-	${DOCKER_COMPOSER} --volume ${shell pwd}/:/app ${COMPOSER_COMMAND} update
+	${DOCKER_COMPOSER} --volume ${shell pwd}/backend:/app ${COMPOSER_COMMAND} update
 
-up:
-	docker-compose up
+#npm-install/frontend:
+#	docker-compose run --rm frontend sh -c "npm install"
 
 up/migrate:
-	docker-compose run --rm backend sh -c "/wait && php artisan migrate --force --seed"
+	cd backend && docker-compose run --rm backend sh -c "/wait && php artisan migrate  --seed"
+
+up/migrate/refresh:
+	cd backend && docker-compose run --rm backend sh -c "/wait && php artisan migrate:refresh  --seed"
 
 #up/migrate:
 #	docker-compose run --rm backend sh -c "/wait && php artisan migrate --force --seed"

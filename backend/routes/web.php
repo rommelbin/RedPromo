@@ -17,7 +17,6 @@ Route::get('/', function () {
     return 'Laravel version - ' . app()->version();
 });
 
-
 Route::post('/login', [MainController::class, 'login']);
 Route::post('/register', [MainController::class, 'register']);
 

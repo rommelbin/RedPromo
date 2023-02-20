@@ -28,9 +28,7 @@
     "extends": "react-app"
   },
   "browserslist": {
-    "production": [
-    ],
-    "development": [
-    ]
+    "production": [],
+    "development": []
   }
 }
